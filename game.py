@@ -1,20 +1,16 @@
 import pygame
 import random
 
-# Initialize pygame
 pygame.init()
 
-# Set up the game window
 WIDTH, HEIGHT = 500, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Dodge the Falling Blocks!')
 
-# Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 
-# Define the player class
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -31,7 +27,6 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT] and self.rect.right < WIDTH:
             self.rect.x += self.speed
 
-# Define the block class
 class Block(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -48,40 +43,33 @@ class Block(pygame.sprite.Sprite):
             self.rect.y = -50
             self.rect.x = random.randint(0, WIDTH - 50)
 
-# Set up the sprite groups
 all_sprites = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
 
 player = Player()
 all_sprites.add(player)
 
-# Create blocks
 for _ in range(5):
     block = Block()
     all_sprites.add(block)
     blocks.add(block)
 
-# Game loop
 running = True
 clock = pygame.time.Clock()
 
 while running:
-    clock.tick(30)  # 30 FPS
+    clock.tick(30)
 
-    # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # Update the sprites
     all_sprites.update()
 
-    # Check for collisions
     if pygame.sprite.spritecollide(player, blocks, True):
         print("Game Over!")
         running = False
 
-    # Draw everything
     screen.fill(BLACK)
     all_sprites.draw(screen)
 
